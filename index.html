@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>当前重要事V1</title>
+    <meta
+      name="description"
+      content="记录和提醒当前最重要的事情，可以设置为浏览器起始页Tab"
+    />
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-image: url("ocean.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+
+      .box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* Hide the default checkbox */
+      .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .container {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        font-size: 20px;
+        user-select: none;
+      }
+
+      /* Create a custom checkbox */
+      .checkmark {
+        position: relative;
+        top: 0;
+        left: 8px;
+        height: 1.3em;
+        width: 1.3em;
+        background-color: #ccc;
+        border-radius: 25px;
+        transition: 0.15s;
+      }
+
+      /* When the checkbox is checked, add a blue background */
+      .container input:checked ~ .checkmark {
+        background-color: limegreen;
+        border-radius: 25px;
+        transition: 0.15s;
+      }
+
+      /* Create the checkmark/indicator (hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Show the checkmark when checked */
+      .container input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Style the checkmark/indicator */
+      .container .checkmark:after {
+        left: 0.45em;
+        top: 0.25em;
+        width: 0.25em;
+        height: 0.5em;
+        border: solid white;
+        border-width: 0 0.15em 0.15em 0;
+        transform: rotate(45deg);
+      }
+
+      /* input::-webkit-input-placeholder {
+        color: #ccc;
+      } */
+      /* From uiverse.io by @alexruix */
+      .input {
+        line-height: 38px;
+        border: 2px solid transparent;
+        border-bottom-color: rgb(61, 60, 60);
+        padding: 0.2rem 0;
+        outline: none;
+        background-color: transparent;
+        color: #e7e6fb;
+        font-size: 32px;
+        transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+
+      .input:focus,
+      input:hover {
+        outline: none;
+        padding: 0.2rem 1rem;
+        border-radius: 1rem;
+        border-color: #7a9cc6;
+      }
+
+      .input::placeholder {
+        color: #777;
+      }
+
+      .input:focus::placeholder {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      /* 字体 */
+      @font-face {
+        font-family: "arailRegular";
+
+        src: url("../font/Arial-Black.ttf") format("truetype");
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <input
+        placeholder="最重要的事？"
+        type="text"
+        class="input"
+        id="shuRuKuang"
+        required=""
+      />
+      <!-- <input placeholder="最重要的事？" id="shuRuKuang" /> -->
+      <!-- <span id="anNiu" onclick="change()">√</span> -->
+      <label class="container">
+        <input
+          type="checkbox"
+          checked="checked"
+          id="anNiu"
+          onclick="change()"
+        />
+        <div class="checkmark"></div>
+      </label>
+    </div>
+    <script>
+      let youshi = false;
+
+      function change() {
+        let anNiu = document.getElementById("anNiu");
+        let shuRuKuang = document.getElementById("shuRuKuang");
+
+        if (youshi) {
+          youshi = false;
+          // anNiu.innerText = "√";
+          shuRuKuang.style.borderBottomColor = "#fff";
+          shuRuKuang.value = "";
+          shuRuKuang.readOnly = false;
+          window.localStorage.removeItem("shi");
+        } else {
+          youshi = true;
+          // anNiu.innerText = "×";
+          shuRuKuang.style.borderBottomColor = "transparent";
+          shuRuKuang.readOnly = true;
+          window.localStorage.setItem("shi", shuRuKuang.value);
+        }
+      }
+
+      let data = window.localStorage.getItem("shi");
+      if (data) {
+        document.getElementById("shuRuKuang").value = data;
+        change();
+      }
+    </script>
+  </body>
+</html>
